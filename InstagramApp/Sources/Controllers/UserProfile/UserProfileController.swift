@@ -8,27 +8,48 @@
 
 import UIKit
 import Firebase
-class UserProfileController: UICollectionViewController {
+class UserProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
     private var user:Users!
+    private var userDictionary = [String:Any]()
+    
+    private let headerId = "headerId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = .white
-        
-        
         fetchUser()
         
+        collectionView?.backgroundColor = .white
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! UserProfileHeader
+        if let urlImage = userDictionary["urlImage"] as! String!{
+            header.urlString = urlImage
+        }
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let size = CGSize(width: view.frame.width, height: 200)
+        
+        return size
+    }
+    
+    
     
     fileprivate func fetchUser(){
         guard let uid =  FIRAuth.auth()?.currentUser?.uid else { return }
         
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            let dictionary = snapshot.value as? [String:Any]
-            
-            print(snapshot.value!)
+            guard let dictionary = snapshot.value as? [String:Any] else { return }
+            self.userDictionary = dictionary
+            let username = self.userDictionary["username"] as? String
+            self.navigationItem.title = username
         }) { (error) in
             print(error)
         }
