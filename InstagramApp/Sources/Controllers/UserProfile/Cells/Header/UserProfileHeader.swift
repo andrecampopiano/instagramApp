@@ -14,6 +14,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     let profileImageView:UIImageView = {
         let iv = UIImageView()
+        iv.backgroundColor = .black
         iv.layer.cornerRadius = 40
         iv.clipsToBounds = true
         return iv
@@ -40,11 +41,8 @@ class UserProfileHeader: UICollectionViewCell {
                 if let imageData = data {
                     self.profileImageView.image = UIImage(data:imageData)
                 }
-                
-                }.resume()
+            }.resume()
         }
-        
-        
     }
     
     required init(coder aDecoder: NSCoder) {
