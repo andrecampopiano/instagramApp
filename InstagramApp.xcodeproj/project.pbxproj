@@ -38,7 +38,7 @@
 		94A9AA701E8928700038EAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		94A9AA781E892A360038EAEB /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		94A9AA7A1E8930210038EAEB /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		94A9AA7C1E8940D10038EAEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		94A9AA7C1E8940D10038EAEB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Config/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		94A9AA7E1E894C970038EAEB /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		94A9AA801E895A560038EAEB /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		94A9AA841E8A8B370038EAEB /* UserProfileHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
@@ -89,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				94A9AA591E8928700038EAEB /* Config */,
+				94A9AA7C1E8940D10038EAEB /* GoogleService-Info.plist */,
 				94A9AA5B1E8928700038EAEB /* Sources */,
 			);
 			path = InstagramApp;
@@ -114,7 +115,6 @@
 		94A9AA591E8928700038EAEB /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				94A9AA7C1E8940D10038EAEB /* GoogleService-Info.plist */,
 				94A9AA5A1E8928700038EAEB /* Info.plist */,
 			);
 			path = Config;

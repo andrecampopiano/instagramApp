@@ -12,16 +12,14 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     
     private var user:Users!
     private var userDictionary = [String:Any]()
-    
     private let headerId = "headerId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUser()
         
+        fetchUser()
         collectionView?.backgroundColor = .white
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -38,8 +36,6 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
         
         return size
     }
-    
-    
     
     fileprivate func fetchUser(){
         guard let uid =  FIRAuth.auth()?.currentUser?.uid else { return }

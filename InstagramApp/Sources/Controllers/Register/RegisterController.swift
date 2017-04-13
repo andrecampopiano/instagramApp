@@ -121,35 +121,23 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             let filename = NSUUID().uuidString
             FIRStorage.storage().reference().child("profile_images").child(filename).put(uploadData, metadata: nil, completion: { (metadata, error) in
-                
                 if let err = error {
                     print("Falha ao carregar a imagem: ", err)
                     return
                 }
-                
                 guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
                 print("Sucesso ao carregar a imagem", profileImageUrl)
                 guard let uid = user?.uid else { return }
-                
                 let dicitionaryValues = ["email":email, "username":username, "password":password ,"urlImage":profileImageUrl]
-                
                 let values = [uid:dicitionaryValues]
-                
                 FIRDatabase.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, reference) in
                     if let err = error {
                         print(err.localizedDescription)
                         return
                     }
-                    
                     print("Sucesso ao salvar usuario ")
-                    
                 })
-                
-                
-                
             })
-            
-            
         })
     }
     
