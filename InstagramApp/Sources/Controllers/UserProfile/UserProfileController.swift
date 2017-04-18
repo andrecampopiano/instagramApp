@@ -10,12 +10,12 @@ import UIKit
 import Firebase
 class UserProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    private var user:Users!
     private var userDictionary = [String:Any]()
     private let headerId = "headerId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         fetchUser()
         collectionView?.backgroundColor = .white
@@ -25,6 +25,7 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! UserProfileHeader
         header.backgroundColor = UIColor.green
+        header.user = self.user
         return header
     }
     
@@ -33,17 +34,30 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
         return size
     }
     
+    var user:User?
+    
     fileprivate func fetchUser(){
         guard let uid =  FIRAuth.auth()?.currentUser?.uid else { return }
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionary = snapshot.value as? [String:Any] else { return }
             self.userDictionary = dictionary
-            let username = self.userDictionary["username"] as? String
-            self.navigationItem.title = username
+            self.user = User(dictionary: dictionary)
+            
+            self.navigationItem.title = self.user?.username
             self.collectionView?.reloadSections([0])
         }) { (error) in
             print(error)
         }
     }
     
+}
+
+struct User {
+    let username: String
+    let profileImageUrl: String
+    
+    init(dictionary:[String:Any]){
+        self.username = dictionary["username"] as? String ?? ""
+        self.profileImageUrl = dictionary["profileImageUrl"] as? String  ?? ""
+    }
 }

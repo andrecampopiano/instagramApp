@@ -27,10 +27,16 @@ class UserProfileHeader: UICollectionViewCell {
         profileImageView.anchor(top: topAnchor, left: leftAnchor, right: nil, botton: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 0, paddingBotton: 0, width: 80, height: 80)
         setupProfileImage()
     }
+    var user: User? {
+        didSet{
+            print("Did set \(user?.username)")
+        }
+    }
+    
     
     fileprivate func setupProfileImage() {
         
-        if urlString != nil {
+       
             guard let url = URL(string: urlString) else { return }
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -42,7 +48,7 @@ class UserProfileHeader: UICollectionViewCell {
                     self.profileImageView.image = UIImage(data:imageData)
                 }
             }.resume()
-        }
+        
     }
     
     required init(coder aDecoder: NSCoder) {
