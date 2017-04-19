@@ -22,33 +22,30 @@ class UserProfileHeader: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, right: nil, botton: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 0, paddingBotton: 0, width: 80, height: 80)
-        setupProfileImage()
     }
-    var user: User? {
+    
+    var user: UserProfile? {
         didSet{
-            print("Did set \(user?.username)")
+             setupProfileImage()
         }
     }
     
-    
     fileprivate func setupProfileImage() {
-        
-       
-            guard let url = URL(string: urlString) else { return }
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let err = error {
-                    print(err)
-                    return
-                }
-                if let imageData = data {
-                    self.profileImageView.image = UIImage(data:imageData)
-                }
-            }.resume()
-        
+        guard let profileImageUrl = user?.profileImageUrl else { return }
+        guard let url = URL(string: profileImageUrl) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let err = error {
+                print(err)
+                return
+            }
+            guard let data = data else { return }
+            let image = UIImage(data: data)
+            DispatchQueue.main.async {
+                self.profileImageView.image = image
+            }
+        }.resume()
     }
     
     required init(coder aDecoder: NSCoder) {

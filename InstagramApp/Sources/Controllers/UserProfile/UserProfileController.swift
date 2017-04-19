@@ -34,14 +34,14 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
         return size
     }
     
-    var user:User?
+    var user:UserProfile?
     
     fileprivate func fetchUser(){
         guard let uid =  FIRAuth.auth()?.currentUser?.uid else { return }
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionary = snapshot.value as? [String:Any] else { return }
             self.userDictionary = dictionary
-            self.user = User(dictionary: dictionary)
+            self.user = UserProfile(dictionary: dictionary)
             
             self.navigationItem.title = self.user?.username
             self.collectionView?.reloadSections([0])
@@ -52,7 +52,7 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     
 }
 
-struct User {
+struct UserProfile {
     let username: String
     let profileImageUrl: String
     
