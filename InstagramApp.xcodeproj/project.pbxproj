@@ -22,6 +22,10 @@
 		94A9AA851E8A8B370038EAEB /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A9AA841E8A8B370038EAEB /* UserProfileHeader.swift */; };
 		94C85D6B1EAF5C1900FB96B4 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C85D6A1EAF5C1900FB96B4 /* LoginController.swift */; };
 		94C85D6D1EAF663900FB96B4 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C85D6C1EAF663900FB96B4 /* RegisterController.swift */; };
+		94C85D6F1EAF686700FB96B4 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C85D6E1EAF686700FB96B4 /* AuthService.swift */; };
+		94C85D711EAF7B7E00FB96B4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C85D701EAF7B7E00FB96B4 /* UIViewControllerExtension.swift */; };
+		94C85D731EAF7FC500FB96B4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94C85D721EAF7FC500FB96B4 /* Localizable.strings */; };
+		94C85D761EAFA11F00FB96B4 /* TextFieldLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C85D751EAFA11F00FB96B4 /* TextFieldLogin.swift */; };
 		D015FB7851DC92B64CF7D4CA /* Pods_InstagramApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283E5D8DB503318BC89DFCEE /* Pods_InstagramApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +48,10 @@
 		94A9AA841E8A8B370038EAEB /* UserProfileHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		94C85D6A1EAF5C1900FB96B4 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		94C85D6C1EAF663900FB96B4 /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		94C85D6E1EAF686700FB96B4 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		94C85D701EAF7B7E00FB96B4 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		94C85D721EAF7FC500FB96B4 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		94C85D751EAFA11F00FB96B4 /* TextFieldLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldLogin.swift; sourceTree = "<group>"; };
 		AE0B11D759B5DD5AACC37F79 /* Pods-InstagramApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstagramApp/Pods-InstagramApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D9E3F60FBD368DE932EF92AC /* Pods-InstagramApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstagramApp/Pods-InstagramApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,6 +166,7 @@
 		94A9AA621E8928700038EAEB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94C85D741EAFA0EE00FB96B4 /* TextField */,
 				94A9AA631E8928700038EAEB /* Component */,
 				94A9AA641E8928700038EAEB /* Extension */,
 			);
@@ -177,6 +186,7 @@
 				94A9AA781E892A360038EAEB /* UIColorExtension.swift */,
 				94A9AA7A1E8930210038EAEB /* UIViewExtension.swift */,
 				94A9AA7E1E894C970038EAEB /* StringExtension.swift */,
+				94C85D701EAF7B7E00FB96B4 /* UIViewControllerExtension.swift */,
 			);
 			name = Extension;
 			path = Extensions;
@@ -186,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				94A9AA661E8928700038EAEB /* AppDelegate.swift */,
+				94C85D721EAF7FC500FB96B4 /* Localizable.strings */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -217,6 +228,7 @@
 		94A9AA6B1E8928700038EAEB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				94C85D6E1EAF686700FB96B4 /* AuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -253,6 +265,14 @@
 				94C85D6A1EAF5C1900FB96B4 /* LoginController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		94C85D741EAFA0EE00FB96B4 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				94C85D751EAFA11F00FB96B4 /* TextFieldLogin.swift */,
+			);
+			path = TextField;
 			sourceTree = "<group>";
 		};
 		B68EA0CA5CD49F2D41F8EFB9 /* Frameworks */ = {
@@ -326,6 +346,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94C85D731EAF7FC500FB96B4 /* Localizable.strings in Resources */,
 				94A9AA761E8928700038EAEB /* LaunchScreen.storyboard in Resources */,
 				94A9AA7D1E8940D10038EAEB /* GoogleService-Info.plist in Resources */,
 				94A9AA751E8928700038EAEB /* Assets.xcassets in Resources */,
@@ -391,12 +412,15 @@
 				94C85D6B1EAF5C1900FB96B4 /* LoginController.swift in Sources */,
 				94A9AA7B1E8930210038EAEB /* UIViewExtension.swift in Sources */,
 				94C85D6D1EAF663900FB96B4 /* RegisterController.swift in Sources */,
+				94C85D6F1EAF686700FB96B4 /* AuthService.swift in Sources */,
 				94A9AA741E8928700038EAEB /* AppDelegate.swift in Sources */,
 				6EF4B92E1E89EC1D004ECA58 /* MainTabBarController.swift in Sources */,
 				94A9AA7F1E894C970038EAEB /* StringExtension.swift in Sources */,
 				94A9AA731E8928700038EAEB /* InstagramApp.xcdatamodeld in Sources */,
 				94A9AA791E892A360038EAEB /* UIColorExtension.swift in Sources */,
+				94C85D711EAF7B7E00FB96B4 /* UIViewControllerExtension.swift in Sources */,
 				94A9AA851E8A8B370038EAEB /* UserProfileHeader.swift in Sources */,
+				94C85D761EAFA11F00FB96B4 /* TextFieldLogin.swift in Sources */,
 				94A9AA811E895A560038EAEB /* User.swift in Sources */,
 				6EF4B9311E89F12C004ECA58 /* UserProfileController.swift in Sources */,
 			);

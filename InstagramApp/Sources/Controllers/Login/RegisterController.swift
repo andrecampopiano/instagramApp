@@ -18,39 +18,25 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         return button
     }()
 
-    let emailTextField: UITextField = {
-        let tf = UITextField()
+    let emailTextField: TextFieldLogin = {
+        let tf = TextFieldLogin()
         tf.placeholder = "Email"
-        tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
-        tf.borderStyle = .roundedRect
-        tf.font = UIFont.systemFont(ofSize: 14)
         tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
-        tf.autocapitalizationType = .none
         
         return tf
     }()
     
-    let usernameTextField: UITextField = {
-        let tf = UITextField()
+    let usernameTextField: TextFieldLogin = {
+        let tf = TextFieldLogin()
         tf.placeholder = "Username"
-        
-        tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
-        tf.borderStyle = .roundedRect
-        tf.font = UIFont.systemFont(ofSize: 14)
-        tf.autocapitalizationType = .none
         tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return tf
     }()
     
-    let passwordTextField: UITextField = {
-        let tf = UITextField()
+    let passwordTextField: TextFieldLogin = {
+        let tf = TextFieldLogin()
         tf.placeholder = "Password"
         tf.isSecureTextEntry = true
-        
-        tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
-        tf.borderStyle = .roundedRect
-        tf.font = UIFont.systemFont(ofSize: 14)
-        tf.autocapitalizationType = .none
         tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return tf
     }()
@@ -63,14 +49,11 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        
         button.isEnabled = false
-        
         return button
     }()
     
     func handleTextInputChange(){
-        
         let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && usernameTextField.text?.characters.count ?? 0 > 0 && passwordTextField.text?.characters.count ?? 0 > 0
         if isFormValid {
             signUpButton.backgroundColor = UIColor.rgb(red:17,green:154,blue:237)
@@ -102,72 +85,38 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func handleSignUp(){
-        
         guard let email = emailTextField.text?.trim(), email.characters.count > 0 else { return }
         guard let username = usernameTextField.text?.trim(), username.characters.count > 0 else { return }
         guard let password = passwordTextField.text?.trim(), password.characters.count > 0 else { return }
-        
-        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
-            
-            if let err = error  {
-                print(err.localizedDescription)
-                return
-            }
-            
-            guard let image = self.addPhotoButton.imageView?.image else { return }
-            
-            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
-            
-            
-            let filename = NSUUID().uuidString
-            FIRStorage.storage().reference().child("profile_images").child(filename).put(uploadData, metadata: nil, completion: { (metadata, error) in
-                if let err = error {
-                    print("Falha ao carregar a imagem: ", err)
-                    return
-                }
-                guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
-                print("Sucesso ao carregar a imagem", profileImageUrl)
-                guard let uid = user?.uid else { return }
-                let dicitionaryValues = ["email":email, "username":username, "password":password ,"urlImage":profileImageUrl]
-                let values = [uid:dicitionaryValues]
-                FIRDatabase.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (error, reference) in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        return
-                    }
-                    print("Sucesso ao salvar usuario ")
+        guard let image = self.addPhotoButton.imageView?.image else { return }
+        let authService = AuthService.sharedInstance
+        authService.registerUserWith(email: email, password: password, image:image, username:username) { (saved, error) in
+            if let err = error {
+                self.alert(title: "title_attention", message: err.localizedDescription,localizable: true, completion: nil)
+            }else {
+                self.alert(title: "title_attention", message: "message_user_saved",localizable:true, completion: {
+                    //Redirecionar para tabbar
                 })
-            })
-        })
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .white
         view.addSubview(addPhotoButton)
-        
         addPhotoButton.anchor(top: view.topAnchor, left: nil, right: nil, botton: nil, paddingTop: 40, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 140, height: 140)
         addPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
         setupInputFields()
     }
     
     fileprivate func setupInputFields() {
         let stackView = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, signUpButton])
-        
-        
-        
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 10
-        
         view.addSubview(stackView)
-        
         stackView.anchor(top: addPhotoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, botton:nil, paddingTop: 20, paddingLeft: 40, paddingRight: 40, paddingBotton: 0, width:0, height:200)
-        
-        
     }
-    
-    
 }
 

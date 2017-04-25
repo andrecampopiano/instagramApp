@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  InstagramApp
+
+  Created by André Luís  Campopiano on 25/04/17.
+  Copyright © 2017 André Campopiano. All rights reserved.
+*/
+
+
+"title_attention" = "Attention";
+"message_user_saved" = "User saved successfully";
