@@ -32,9 +32,9 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
         alert.addAction(UIAlertAction(title: "Log out", style: .destructive, handler: { (_) in
             do {
                 try FIRAuth.auth()?.signOut()
-                print("Log out")
+                
             }catch let signOutErr{
-                print("Failed to sign out: \(signOutErr)")
+                print("Failed to sign out: ",signOutErr)
             }
             
         }))

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  RegisterController.swift
 //  InstagramApp
 //
 //  Created by André Campopiano on 27/03/17.
