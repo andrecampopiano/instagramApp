@@ -69,7 +69,6 @@ class LoginController: UIViewController {
             }else {
                 self.alert(title: "title_attention", message:"Successfully logged" , localizable: true, completion:{
                     guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{ return }
-                    
                     mainTabBarController.setupViewControllers()
                     self.dismiss(animated: true, completion: nil)
                 })
