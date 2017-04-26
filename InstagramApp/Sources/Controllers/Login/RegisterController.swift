@@ -53,6 +53,19 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         return button
     }()
     
+    let alreadyHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.lightGray])
+        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red:17,green:154,blue:237)]))
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.addTarget(self, action: #selector(handleAlreadyHaveAccount), for: .touchUpInside)
+        return button
+    }()
+    
+    func handleAlreadyHaveAccount() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     func handleTextInputChange(){
         let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && usernameTextField.text?.characters.count ?? 0 > 0 && passwordTextField.text?.characters.count ?? 0 > 0
         if isFormValid {
@@ -70,6 +83,7 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         imagePickerController.allowsEditing = true
         present(imagePickerController, animated: true, completion: nil)
     }
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
@@ -95,7 +109,9 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
                 self.alert(title: "title_attention", message: err.localizedDescription,localizable: true, completion: nil)
             }else {
                 self.alert(title: "title_attention", message: "message_user_saved",localizable:true, completion: {
-                    //Redirecionar para tabbar
+                    guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{ return }
+                    mainTabBarController.setupViewControllers()
+                    self.dismiss(animated: true, completion: nil)
                 })
             }
         }
@@ -108,6 +124,9 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         addPhotoButton.anchor(top: view.topAnchor, left: nil, right: nil, botton: nil, paddingTop: 40, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 140, height: 140)
         addPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         setupInputFields()
+        view.addSubview(alreadyHaveAccountButton)
+        alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, botton: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
+        
     }
     
     fileprivate func setupInputFields() {

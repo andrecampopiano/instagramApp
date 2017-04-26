@@ -57,4 +57,14 @@ class AuthService: NSObject {
             }
         })
     }
+    
+    func signInAccoutWith(email:String, password:String, completion:@escaping(FIRUser?, Error?)->()){
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            if let err = error{
+                completion(nil,err)
+            }else {
+                completion(user, nil)
+            }
+        })
+    }
 }

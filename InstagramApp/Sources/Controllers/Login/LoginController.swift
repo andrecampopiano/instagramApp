@@ -50,27 +50,45 @@ class LoginController: UIViewController {
         return button
     }()
     
-    let sigUpButton: UIButton = {
+    let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        
         let attributedTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.lightGray])
-        
-        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red:17,green:154,blue:237)]))
-        
+        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red:17,green:154,blue:237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(handleShowSingUp), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleDontHaveAccount), for: .touchUpInside)
         return button
     }()
     
     func handleLogin(){
-        
+        let authService = AuthService.sharedInstance
+        guard let email = emailTextField.text?.trim(), email.characters.count > 0 else { return }
+        guard let password = passwordTextField.text?.trim(), password.characters.count > 0 else { return }
+        authService.signInAccoutWith(email: email, password: password) { (user, error) in
+            if let err = error {
+                self.alert(title: "title_attention", message: err.localizedDescription, localizable: true)
+            }else {
+                self.alert(title: "title_attention", message:"Successfully logged" , localizable: true, completion:{
+                    guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{ return }
+                    
+                    mainTabBarController.setupViewControllers()
+                    self.dismiss(animated: true, completion: nil)
+                })
+            }
+        }
     }
 
     func handleTextInputChange(){
-        
+        let isFormValid = emailTextField.text?.characters.count ?? 0 > 0  && passwordTextField.text?.characters.count ?? 0 > 0
+        if isFormValid {
+            loginButton.backgroundColor = UIColor.rgb(red:17,green:154,blue:237)
+            loginButton.isEnabled = true
+        }else {
+            loginButton.backgroundColor = UIColor.rgb(red:149,green:204,blue:244)
+            loginButton.isEnabled = false
+        }
     }
     
-    func handleShowSingUp(){
+    func handleDontHaveAccount(){
         let registerController = RegisterController()
         navigationController?.pushViewController(registerController, animated: true)
     }
@@ -86,8 +104,8 @@ class LoginController: UIViewController {
         view.addSubview(logoContainerView)
         logoContainerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 150)
         setupInputFields()
-        view.addSubview(sigUpButton)
-        sigUpButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, botton: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
+        view.addSubview(dontHaveAccountButton)
+        dontHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, botton: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
     }
     
     fileprivate func setupInputFields() {
@@ -98,15 +116,4 @@ class LoginController: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, botton:nil, paddingTop: 40, paddingLeft: 40, paddingRight: 40, paddingBotton: 0, width:0, height:140)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -17,7 +17,11 @@ extension UIViewController{
             msg = NSLocalizedString(msg, comment: "")
         }
         let alertController = UIAlertController(title: messageTitle, message: msg, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (alert) in
+            if (completion != nil) {
+                completion!()
+            }
+        }
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
