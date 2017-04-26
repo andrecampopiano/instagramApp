@@ -6,6 +6,11 @@
   Copyright © 2017 André Campopiano. All rights reserved.
 */
 
-
+//AlertMessagens
 "title_attention" = "Attention";
 "message_user_saved" = "User saved successfully";
+
+
+//PhotoSelectorController
+"title_cancel" = "Cancel";
+"title_next" = "Next";
