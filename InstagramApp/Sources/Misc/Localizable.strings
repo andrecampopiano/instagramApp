@@ -14,3 +14,6 @@
 //PhotoSelectorController
 "title_cancel" = "Cancel";
 "title_next" = "Next";
+
+//SharePhotoController
+"title_share" = "Share";

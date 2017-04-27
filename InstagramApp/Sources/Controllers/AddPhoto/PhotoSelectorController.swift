@@ -72,7 +72,8 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     }
 
     func handleNext(){
-        
+        let sharePhotoController = SharePhotoController()
+        navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     func handleCancel(){ dismiss(animated: true, completion: nil) }
@@ -132,5 +133,8 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedImage = images[indexPath.item]
         self.collectionView?.reloadData()
+        
+        let indexPath = IndexPath(item: 0, section:0)
+        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
     }
 }
