@@ -16,6 +16,7 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
 
     var images = [UIImage]()
     var selectedImage:UIImage?
+    var assets = [PHAsset]()
     
     
     override func viewDidLoad() {
@@ -49,10 +50,10 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
                 imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
                     if let image = image {
                         self.images.append(image)
+                        self.assets.append(asset)
                         if self.selectedImage == nil { self.selectedImage = image }
                     }
-                    print(allPhotos.count)
-                    if count == allPhotos.count - 1 || count % 5 == 0 {
+                    if count == allPhotos.count - 1 {
                         DispatchQueue.main.async {
                             self.collectionView?.reloadData()
                         }
@@ -79,7 +80,16 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     //MARK: HeaderView
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerPhotoIdentifier, for: indexPath) as! HeaderPhotoCell
-        header.headerImageView.image = self.selectedImage
+        if let selectedImage = selectedImage{
+            if let index = self.images.index(of: selectedImage){
+                let selectedAsset = self.assets[index]
+                let imageManager = PHImageManager.default()
+                let targetSize = CGSize(width: 600, height: 600)
+                imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .default, options: nil, resultHandler: { (image, info) in
+                    header.headerImageView.image = image
+                })
+            }
+        }
         return header
     }
     
