@@ -12,7 +12,7 @@ class HeaderPhotoCell: UICollectionViewCell {
     
     let headerImageView:UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true        
         return iv
     }()

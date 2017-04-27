@@ -15,39 +15,51 @@ private let headerPhotoIdentifier = "headerPhotoIdentifier"
 class PhotoSelectorController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
 
     var images = [UIImage]()
+    var selectedImage:UIImage?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = .white
         setupNavigationButtons()
         self.collectionView!.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        self.collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerPhotoIdentifier)
+        self.collectionView?.register(HeaderPhotoCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerPhotoIdentifier)
         fetchPhotos()
     }
 
     override var prefersStatusBarHidden: Bool{ return true }
 
     //MARK: Loading Photos
-    fileprivate func fetchPhotos(){
+    fileprivate func assetFetchOptions() -> PHFetchOptions {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 20
+        fetchOptions.fetchLimit = .max
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        allPhotos.enumerateObjects({ (asset, count, stop) in
-            let imageManager  = PHImageManager.default()
-            let targetSize = CGSize(width: 350, height: 350)
-            let options = PHImageRequestOptions()
-            options.isSynchronous = true
-            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
-                if let image = image {
-                    self.images.append(image)
-                }
-                if count == allPhotos.count - 1 {
-                    self.collectionView?.reloadData()
-                }
+        return fetchOptions
+    }
+    
+    fileprivate func fetchPhotos(){
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: assetFetchOptions())
+        DispatchQueue.global(qos: .background).async {
+            allPhotos.enumerateObjects({ (asset, count, stop) in
+                let imageManager  = PHImageManager.default()
+                let targetSize = CGSize(width: 200, height: 200)
+                let options = PHImageRequestOptions()
+                options.isSynchronous = true
+                imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
+                    if let image = image {
+                        self.images.append(image)
+                        if self.selectedImage == nil { self.selectedImage = image }
+                    }
+                    print(allPhotos.count)
+                    if count == allPhotos.count - 1 || count % 5 == 0 {
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
+                    }
+                })
             })
-        })
+        }
     }
     
     //MARK: NavBarButton
@@ -66,8 +78,8 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     
     //MARK: HeaderView
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerPhotoIdentifier, for: indexPath)
-        header.backgroundColor = .red
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerPhotoIdentifier, for: indexPath) as! HeaderPhotoCell
+        header.headerImageView.image = self.selectedImage
         return header
     }
     
@@ -108,37 +120,7 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+        self.selectedImage = images[indexPath.item]
+        self.collectionView?.reloadData()
     }
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }

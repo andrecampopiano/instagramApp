@@ -23,7 +23,7 @@ class PhotoSelectorCell: UICollectionViewCell {
         
         addSubview(photoImageView)
         photoImageView.anchor(top:topAnchor, left: leftAnchor, right: rightAnchor, botton: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 0)
-        backgroundColor = .purple
+        backgroundColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {
