@@ -73,14 +73,21 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
 
     func handleNext(){
         let sharePhotoController = SharePhotoController()
+        sharePhotoController.selectedImage = header?.headerImageView.image
         navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     func handleCancel(){ dismiss(animated: true, completion: nil) }
     
+    var header:HeaderPhotoCell?
+    
     //MARK: HeaderView
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerPhotoIdentifier, for: indexPath) as! HeaderPhotoCell
+        
+        self.header = header
+        header.headerImageView.image = selectedImage
+        
         if let selectedImage = selectedImage{
             if let index = self.images.index(of: selectedImage){
                 let selectedAsset = self.assets[index]

@@ -17,3 +17,7 @@
 
 //SharePhotoController
 "title_share" = "Share";
+"message_error_upload_image" = "Failed to upload image";
+"message_success_upload_image" = "Sucessfully uploaded image";
+"message_failed_save_post" = "Failed to save post to DB";
+"message_success_save_post" = "Successfully saved info to DB";

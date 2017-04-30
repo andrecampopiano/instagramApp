@@ -27,7 +27,7 @@ extension UIView {
         }
        
         if let botton = botton {
-            self.bottomAnchor.constraint(equalTo: botton, constant: paddingBotton).isActive = true
+            self.bottomAnchor.constraint(equalTo: botton, constant: -paddingBotton).isActive = true
         }
         
         if  height != 0 {
