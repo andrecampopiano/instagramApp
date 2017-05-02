@@ -44,12 +44,12 @@ class SharePhotoController: UIViewController {
         let containerView = UIView()
         containerView.backgroundColor = .white
         view.addSubview(containerView)
-        containerView.anchor(top: topLayoutGuide.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 100)
+        containerView.anchor(top: topLayoutGuide.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 100)
         containerView.addSubview(imageView)
-        imageView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, right: nil, botton: containerView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 0, paddingBotton: 5, width: 90, height: 0)
+        imageView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, right: nil, bottom: containerView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 0, paddingBottom: 5, width: 90, height: 0)
         
         containerView.addSubview(textView)
-        textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, right: containerView.rightAnchor, botton: containerView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 5, paddingBotton: 5, width: 0, height: 0)
+        textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, right: containerView.rightAnchor, bottom: containerView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 5, paddingBottom: 5, width: 0, height: 0)
     }
     
     fileprivate func setupNavigationButtons(){

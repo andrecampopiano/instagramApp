@@ -28,7 +28,7 @@ class UserProfilePhotoCell: UICollectionViewCell {
         super.init(frame:frame)
         
         addSubview(photoImageView)
-        photoImageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, botton: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 0)
+        photoImageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 0)
     }
     
     

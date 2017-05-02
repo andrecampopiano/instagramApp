@@ -32,8 +32,8 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         
         if FIRAuth.auth()?.currentUser == nil {
             DispatchQueue.main.async {
-                let loginController = LoginController()
-                let navController = UINavigationController(rootViewController: loginController)
+                let homeController = HomeController()
+                let navController = UINavigationController(rootViewController: homeController)
                 self.present(navController, animated: true, completion: nil)
             }
             return 
@@ -43,7 +43,7 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
     
     func setupViewControllers(){
         //home
-        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"))
+        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
         //search
         let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"))
         //plus
@@ -53,8 +53,8 @@ class MainTabBarController: UITabBarController,UITabBarControllerDelegate {
         let navLikeController = templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"))
         
         //userProfile
-        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
-        let userProfileNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: userProfileController)
+        let userProfileNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: UserProfileController(collectionViewLayout: UICollectionViewFlowLayout()))
+        
         tabBar.tintColor = .black
         viewControllers = [homeNavController, searchNavController, plusNavController, navLikeController, userProfileNavController]
         

@@ -121,11 +121,11 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(addPhotoButton)
-        addPhotoButton.anchor(top: view.topAnchor, left: nil, right: nil, botton: nil, paddingTop: 40, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 140, height: 140)
+        addPhotoButton.anchor(top: view.topAnchor, left: nil, right: nil, bottom: nil, paddingTop: 40, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 140, height: 140)
         addPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         setupInputFields()
         view.addSubview(alreadyHaveAccountButton)
-        alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, botton: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
+        alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 50)
         
     }
     
@@ -135,7 +135,7 @@ class RegisterController: UIViewController, UIImagePickerControllerDelegate, UIN
         stackView.axis = .vertical
         stackView.spacing = 10
         view.addSubview(stackView)
-        stackView.anchor(top: addPhotoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, botton:nil, paddingTop: 20, paddingLeft: 40, paddingRight: 40, paddingBotton: 0, width:0, height:200)
+        stackView.anchor(top: addPhotoButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom:nil, paddingTop: 20, paddingLeft: 40, paddingRight: 40, paddingBottom: 0, width:0, height:200)
     }
 }
 

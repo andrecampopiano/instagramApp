@@ -33,7 +33,7 @@ class PhotoSelectorController: UICollectionViewController,UICollectionViewDelega
     //MARK: Loading Photos
     fileprivate func assetFetchOptions() -> PHFetchOptions {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = .max
+        fetchOptions.fetchLimit = 30
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
         return fetchOptions

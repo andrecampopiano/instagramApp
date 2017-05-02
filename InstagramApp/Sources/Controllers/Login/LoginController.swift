@@ -15,7 +15,7 @@ class LoginController: UIViewController {
         let logoImageView = UIImageView(image:#imageLiteral(resourceName: "Instagram_logo_white"))
         logoImageView.contentMode = .scaleAspectFill
         view.addSubview(logoImageView)
-        logoImageView.anchor(top: nil, left: nil, right: nil, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 200, height: 50)
+        logoImageView.anchor(top: nil, left: nil, right: nil, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 200, height: 50)
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         view.backgroundColor = UIColor.rgb(red: 0, green: 120, blue: 175)
@@ -101,10 +101,10 @@ class LoginController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .white
         view.addSubview(logoContainerView)
-        logoContainerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 150)
+        logoContainerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 150)
         setupInputFields()
         view.addSubview(dontHaveAccountButton)
-        dontHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, botton: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
+        dontHaveAccountButton.anchor(top: nil, left: view.leftAnchor, right: view.rightAnchor, bottom: view.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 50)
     }
     
     fileprivate func setupInputFields() {
@@ -113,6 +113,6 @@ class LoginController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 10
         view.addSubview(stackView)
-        stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, botton:nil, paddingTop: 40, paddingLeft: 40, paddingRight: 40, paddingBotton: 0, width:0, height:140)
+        stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, bottom:nil, paddingTop: 40, paddingLeft: 40, paddingRight: 40, paddingBottom: 0, width:0, height:140)
     }
 }

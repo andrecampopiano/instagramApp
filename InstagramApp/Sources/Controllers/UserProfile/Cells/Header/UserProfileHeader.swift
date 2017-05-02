@@ -95,22 +95,22 @@ class UserProfileHeader: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, right: nil, botton: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 0, paddingBotton: 0, width: 80, height: 80)
+        profileImageView.anchor(top: topAnchor, left: leftAnchor, right: nil, bottom: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 0, paddingBottom: 0, width: 80, height: 80)
         setupBottomToolbar()
         
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, botton: gridButton.topAnchor, paddingTop: 4, paddingLeft: 12, paddingRight: 12, paddingBotton: 0, width: 0, height: 0)
+        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: gridButton.topAnchor, paddingTop: 4, paddingLeft: 12, paddingRight: 12, paddingBottom: 0, width: 0, height: 0)
     
         setupUserStatsView()
         addSubview(editProfileButton)
-        editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, right: followingLabel.rightAnchor, botton: nil, paddingTop: 2, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 34)
+        editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, right: followingLabel.rightAnchor, bottom: nil, paddingTop: 2, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 34)
     }
     
     fileprivate  func setupUserStatsView(){
         let stackView = UIStackView(arrangedSubviews: [postsLabel,followersLabel,followingLabel])
         stackView.distribution = .fillEqually
         addSubview(stackView)
-        stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, right: rightAnchor, botton: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 12, paddingBotton: 0, width: 0, height: 50)
+        stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, right: rightAnchor, bottom: nil, paddingTop: 12, paddingLeft: 12, paddingRight: 12, paddingBottom: 0, width: 0, height: 50)
         
     }
     
@@ -128,9 +128,9 @@ class UserProfileHeader: UICollectionViewCell {
         addSubview(topDividerView)
         addSubview(bottomDividerView)
         
-        stackView.anchor(top: nil, left: leftAnchor, right: rightAnchor, botton: self.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 50)
-        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, right: rightAnchor, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 0.5)
-        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, right: rightAnchor, botton: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBotton: 0, width: 0, height: 0.5)
+        stackView.anchor(top: nil, left: leftAnchor, right: rightAnchor, bottom: self.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 50)
+        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 0.5)
+        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 0.5)
     }
     
     required init(coder aDecoder: NSCoder) {
