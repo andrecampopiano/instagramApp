@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class SharePhotoController: UIViewController {
     
@@ -31,7 +30,6 @@ class SharePhotoController: UIViewController {
         tv.font = UIFont.systemFont(ofSize: 14)
         return tv
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,43 +58,19 @@ class SharePhotoController: UIViewController {
     
     func handleShare(){
         guard let image = selectedImage else { return }
-        guard let uploadData = UIImageJPEGRepresentation(image, 0.5) else { return }
-        guard let idUser = FIRAuth.auth()?.currentUser?.uid else { return }
-        
+        guard let caption = self.textView.text, caption.characters.count > 0 else { return }
+        let postService = PostService.shareInstance
         navigationItem.rightBarButtonItem?.isEnabled = false
-        
-        let filename = NSUUID().uuidString
-        FIRStorage.storage().reference().child("posts").child(idUser).child(filename).put(uploadData, metadata: nil) { (metadata, error) in
-            if let err = error {
-                self.alert(title: "title_attention", message: "message_error_upload_image", localizable: true , completion: {
-                    print(err.localizedDescription)
-                    self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    return
-                })
-            }
-            guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
-            print(NSLocalizedString("message_success_upload_image", comment: ""),imageUrl)
-            self.saveToDatabaseWithImageUrl(imageUrl: imageUrl,textPost:self.textView.text,postImage: image)
-        }
-    }
-    
-    fileprivate func saveToDatabaseWithImageUrl(imageUrl:String, textPost:String, postImage:UIImage){
-        // tratar text sem caracters
-        guard let idUser = FIRAuth.auth()?.currentUser?.uid else { return }
-        let userPostRef = FIRDatabase.database().reference().child("posts").child(idUser)
-        let ref = userPostRef.childByAutoId()
-        let values = ["caption": textPost , "imageUrl" : imageUrl, "imageWidth" : postImage.size.width, "imageHeight" : postImage.size.height, "creationDate" : Date().timeIntervalSince1970] as [String : Any]
-        ref.updateChildValues(values) { (error, ref) in
+        postService.savePostWith(caption: caption, postImage: image) { (saved, error) in
             if let err = error {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
-                print(NSLocalizedString("message_failed_save_post", comment: ""), err)
-                return
-                
+                self.alert(title: "Attention", message: err.localizedDescription, localizable: false)
+            }else {
+                self.alert(title: "title_attention", message: "message_success_save_post", localizable: true, completion:{
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                    self.dismiss(animated: true, completion: nil)
+                })
             }
-            print(NSLocalizedString("message_success_save_post", comment: ""))
-            self.dismiss(animated: true, completion: nil)
         }
-        
     }
-    
 }

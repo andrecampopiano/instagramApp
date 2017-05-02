@@ -13,16 +13,47 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     private var userDictionary = [String:Any]()
     private let headerId = "headerId"
     private let cellId = "cellId"
+    private var posts = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUser()
         collectionView?.backgroundColor = .white
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setupLogOutButton()
+        //fetchPosts()
+        fetchOrderedPosts()
     }
     
+    fileprivate func fetchOrderedPosts(){
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
+        let ref = FIRDatabase.database().reference().child("posts").child(uid)
+        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+            guard let dictionary = snapshot.value  as? [String : Any] else { return }
+            
+            let post = Post(dictionary: dictionary)
+            self.posts.append(post)
+            self.collectionView?.reloadData()
+        }) { (error) in
+            print("Failed to fetch ordered posts:", error)
+        }
+    }
+    
+    fileprivate func fetchPosts(){
+        let postService = PostService.shareInstance
+        postService.fetchPosts { (posts, error) in
+            if let err = error{
+                self.alert(title: "Attention", message: err.localizedDescription, localizable: false)
+            }else{
+                if let posts  = posts {
+                    self.posts = posts
+                    self.collectionView?.reloadData()
+                }
+            }
+        }
+    }
+
     fileprivate func setupLogOutButton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
     }
@@ -46,12 +77,12 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return self.posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .purple
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
+        cell.post = self.posts[indexPath.item]
         return cell
     }
     
