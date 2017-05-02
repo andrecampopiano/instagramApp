@@ -27,6 +27,8 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     }
     
     fileprivate func fetchOrderedPosts(){
+        
+        //Bug no observer corrigir depois
         guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
         let ref = FIRDatabase.database().reference().child("posts").child(uid)
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in

@@ -13,14 +13,16 @@ struct Post {
     let caption:String
     let imageHeight:Float
     let imageWidth:Float
-    let creationDate:NSNumber
+    let creationDate:Date
     
     init(dictionary:[String:Any]){
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
         self.caption = dictionary["caption"] as? String ?? ""
         self.imageHeight = dictionary["imageHeight"] as! Float
         self.imageWidth = dictionary["imageWidth"] as! Float
-        self.creationDate = dictionary["creationDate"] as! NSNumber
+        
+        let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
+        self.creationDate = Date(timeIntervalSince1970:secondsFrom1970)
     }
 }
 

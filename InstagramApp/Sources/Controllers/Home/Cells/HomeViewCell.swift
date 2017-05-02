@@ -17,6 +17,11 @@ class HomeViewCell: UICollectionViewCell {
         }
     }
     
+    let topView:UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     let userProfileImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.backgroundColor = .red
@@ -33,12 +38,14 @@ class HomeViewCell: UICollectionViewCell {
         return lbl
     }()
     
-    let viewContainer:UIView = {
-        let view = UIView()
-        return view
+    let btnMore :UIButton = {
+        let button = UIButton()
+        button.setTitle("•••", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
     }()
     
-    let topView:UIView = {
+    let viewContainer:UIView = {
         let view = UIView()
         return view
     }()
@@ -71,11 +78,14 @@ class HomeViewCell: UICollectionViewCell {
     
     func setupTopView(){
         viewContainer.addSubview(topView)
-        topView.anchor(top: viewContainer.topAnchor, left: viewContainer.leftAnchor, right: viewContainer.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 50)
+        topView.anchor(top: viewContainer.topAnchor, left: viewContainer.leftAnchor, right: viewContainer.rightAnchor, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 0, height: 56)
         topView.addSubview(userProfileImageView)
-        userProfileImageView.anchor(top: topView.topAnchor, left: topView.leftAnchor, right: nil, bottom: topView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 0, paddingBottom: 5, width: 40, height: 0)
+        userProfileImageView.anchor(top: topView.topAnchor, left: topView.leftAnchor, right: nil, bottom: topView.bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 0, paddingBottom: 8, width: 40, height: 0)
         topView.addSubview(labelProfileName)
-        labelProfileName.anchor(top: topView.topAnchor, left: userProfileImageView.rightAnchor, right: nil, bottom: topView.bottomAnchor, paddingTop: 5, paddingLeft: 5, paddingRight: 0, paddingBottom: 5, width: 0, height: 0)
+        labelProfileName.anchor(top: topView.topAnchor, left: userProfileImageView.rightAnchor, right: nil, bottom: topView.bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 0, paddingBottom: 8, width: 0, height: 0)
+        
+        topView.addSubview(btnMore)
+        btnMore.anchor(top: topView.topAnchor, left: labelProfileName.rightAnchor, right: topView.rightAnchor, bottom: topView.bottomAnchor, paddingTop: 10, paddingLeft: 0, paddingRight: 5, paddingBottom: 10, width: 30, height: 0)
         
     }
     
