@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-
-
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let reuseIdentifier = "Cell"
