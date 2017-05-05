@@ -10,52 +10,43 @@ import UIKit
 import Firebase
 class UserProfileController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    private var userDictionary = [String:Any]()
     private let headerId = "headerId"
     private let cellId = "cellId"
     private var posts = [Post]()
+    var user = User(dictionary: ["":""],uid: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUser()
+        fetchUserAndPosts()
         collectionView?.backgroundColor = .white
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setupLogOutButton()
-        //fetchPosts()
-        fetchOrderedPosts()
     }
     
-    fileprivate func fetchOrderedPosts(){
-        
-        //Bug no observer corrigir depois
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
-        let ref = FIRDatabase.database().reference().child("posts").child(uid)
-        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-            guard let dictionary = snapshot.value  as? [String : Any] else { return }
-            
-            let post = Post(dictionary: dictionary)
-            self.posts.append(post)
-            self.collectionView?.reloadData()
-        }) { (error) in
-            print("Failed to fetch ordered posts:", error)
-        }
-    }
-    
-    fileprivate func fetchPosts(){
-        let postService = PostService.shareInstance
-        postService.fetchPosts { (posts, error) in
-            if let err = error{
-                self.alert(title: "Attention", message: err.localizedDescription, localizable: false)
-            }else{
-                if let posts  = posts {
-                    self.posts = posts
-                    self.collectionView?.reloadData()
+    fileprivate func fetchUserAndPosts(){
+        let serviceUser = UserService.shareInstance
+        serviceUser.fetchUserProfileLogged { (user, error) in
+            if let err = error {
+                self.alert(title: NSLocalizedString("title_attention", comment: ""), message: err.localizedDescription, localizable: false)
+            }else {
+                if let user = user {
+                    self.user = user
+                    let servicePost = PostService.shareInstance
+                    servicePost.fetchOrderedPostsUserProfile(user: user, completion: { (posts, error) in
+                        if let err = error{
+                            self.alert(title: NSLocalizedString("title_attention", comment: ""), message: err.localizedDescription, localizable: false)
+                        }else{
+                            self.posts = posts
+                            self.navigationItem.title = self.user.username
+                            self.collectionView?.reloadSections([0])
+                        }
+                    })
                 }
             }
         }
     }
-
+    
     fileprivate func setupLogOutButton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
     }
@@ -110,32 +101,5 @@ class UserProfileController: UICollectionViewController,UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let size = CGSize(width: view.frame.width, height: 200)
         return size
-    }
-    
-    var user:UserProfile?
-    
-    fileprivate func fetchUser(){
-        guard let uid =  FIRAuth.auth()?.currentUser?.uid else { return }
-        FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionary = snapshot.value as? [String:Any] else { return }
-            self.userDictionary = dictionary
-            self.user = UserProfile(dictionary: dictionary)
-            
-            self.navigationItem.title = self.user?.username
-            self.collectionView?.reloadSections([0])
-        }) { (error) in
-            print(error)
-        }
-    }
-    
-}
-
-struct UserProfile {
-    let username: String
-    let profileImageUrl: String
-    
-    init(dictionary:[String:Any]){
-        self.username = dictionary["username"] as? String ?? ""
-        self.profileImageUrl = dictionary["profileImageUrl"] as? String  ?? ""
     }
 }

@@ -12,9 +12,13 @@ class User: NSObject {
     
     var uid:String!
     var email:String!
-    var password:String!
     var username:String!
     var profileImageUrl:String!
     
-
+    init(dictionary:[String:Any], uid:String){
+        self.uid = uid
+        self.username = dictionary["username"] as? String ?? ""
+        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
+        self.email = dictionary["email"] as? String ?? ""
+    }
 }

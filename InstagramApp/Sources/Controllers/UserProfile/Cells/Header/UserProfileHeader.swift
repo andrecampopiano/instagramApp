@@ -10,7 +10,7 @@ import UIKit
 
 class UserProfileHeader: UICollectionViewCell {
     
-    var user: UserProfile? {
+    var user: User? {
         didSet{
             guard let profileImageUrl = self.user?.profileImageUrl else { return }
             profileImageView.loadImage(urlString: profileImageUrl)

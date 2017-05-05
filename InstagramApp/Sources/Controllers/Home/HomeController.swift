@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
+    
     private let reuseIdentifier = "Cell"
     private var posts = [Post]()
     
@@ -21,34 +21,32 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         setupNavigationItems()
         fetchPosts()
     }
-
+    
     func setupNavigationItems(){
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
     }
     
     fileprivate func fetchPosts(){
         let postService = PostService.shareInstance
-        postService.fetchPosts { (posts, error) in
+        postService.fetchAllPosts { (posts, error) in
             if let err = error{
                 self.alert(title: "Attention", message: err.localizedDescription, localizable: false)
             }else{
-                if let posts  = posts {
-                    self.posts = posts
-                    self.collectionView?.reloadData()
-                }
+                self.posts = posts
+                self.collectionView?.reloadData()
             }
         }
     }
-
+    
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.posts.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! HomeViewCell
         cell.post = self.posts[indexPath.item]

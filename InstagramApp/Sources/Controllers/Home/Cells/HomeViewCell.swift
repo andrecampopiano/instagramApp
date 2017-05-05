@@ -14,6 +14,7 @@ class HomeViewCell: UICollectionViewCell {
         didSet{
             guard let imageUrl = post?.imageUrl else { return }
             photoImageView.loadImage(urlString: imageUrl)
+            labelProfileName.text = "TEST USERNAME"
         }
     }
     
