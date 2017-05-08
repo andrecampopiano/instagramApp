@@ -10,11 +10,22 @@ import UIKit
 
 class HomeViewCell: UICollectionViewCell {
     
+    var userName:String = ""
+    var captionPost:String = ""
+
     var post:Post? {
         didSet{
             guard let imageUrl = post?.imageUrl else { return }
             photoImageView.loadImage(urlString: imageUrl)
-            labelProfileName.text = "TEST USERNAME"
+            if let profileImageUrl = post?.user.profileImageUrl {
+                 userProfileImageView.loadImage(urlString:profileImageUrl)
+            }
+            if let username = post?.user.username {
+                labelProfileName.text = username
+            }
+            if let caption = post?.caption {
+                captionLabel.text = caption
+            }
         }
     }
     
@@ -25,7 +36,6 @@ class HomeViewCell: UICollectionViewCell {
     
     let userProfileImageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.backgroundColor = .red
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 20
@@ -34,7 +44,6 @@ class HomeViewCell: UICollectionViewCell {
     
     let labelProfileName:UILabel = {
         let lbl = UILabel()
-        lbl.text = "username"
         lbl.font = UIFont.boldSystemFont(ofSize:14)
         return lbl
     }()

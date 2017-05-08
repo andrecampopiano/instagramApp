@@ -32,8 +32,10 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             if let err = error{
                 self.alert(title: "Attention", message: err.localizedDescription, localizable: false)
             }else{
-                self.posts = posts
-                self.collectionView?.reloadData()
+                if let posts = posts {
+                    self.posts = posts
+                    self.collectionView?.reloadData()
+                }
             }
         }
     }

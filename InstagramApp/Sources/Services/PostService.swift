@@ -62,16 +62,29 @@ class PostService: NSObject {
         }
     }
     
-    func fetchAllPosts(completion:@escaping([Post], Error?)->()){
+    func fetchAllPosts(completion:@escaping([Post]?, Error?)->()){
         let ref = FIRDatabase.database().reference().child("posts")
         var posts = [Post]()
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String:Any] else { return }
-            dictionaries.forEach({ (key, value) in
-                guard let dictionary = value as? [String:Any] else { return }
-                print(dictionary)
+            dictionaries.forEach({ (uid, postsValue) in
+                let userService = UserService.shareInstance
+                userService.fetchUserWith(uid: uid, completion: { (user, error) in
+                    if let err = error {
+                        completion(nil,err)
+                    }else {
+                        if let user = user {
+                            (postsValue as! [String:Any]).forEach({(key,value)in
+                                guard let dictionary = value as? [String:Any] else { return }
+                                let post = Post(user: user, dictionary: dictionary)
+                                posts.append(post)
+                                
+                            })
+                            completion(posts,nil)
+                        }
+                    }
+                })
             })
-            completion(posts,nil)
         }) { (error) in
             print(error)
             completion(posts,error)
@@ -98,24 +111,24 @@ class PostService: NSObject {
         }
     }
     /*
-    func fetchPosts(completion:@escaping([Post]?, Error?)->()){
-        guard let userId = FIRAuth.auth()?.currentUser?.uid else { return }
-        let ref = FIRDatabase.database().reference().child("posts")
-        var posts = [Post]()
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionaries = snapshot.value as? [String:Any] else { return }
-            dictionaries.forEach({ (key, value) in
-                guard let dictionary = value as? [String:Any] else { return }
-                let post = Post(user: user, dictionary: dictionary)
-                posts.append(post)
-            })
-            completion(posts,nil)
-        }) { (error) in
-            print(error)
-            completion(nil,error)
-        }
-    }
-    */
+     func fetchPosts(completion:@escaping([Post]?, Error?)->()){
+     guard let userId = FIRAuth.auth()?.currentUser?.uid else { return }
+     let ref = FIRDatabase.database().reference().child("posts")
+     var posts = [Post]()
+     ref.observeSingleEvent(of: .value, with: { (snapshot) in
+     guard let dictionaries = snapshot.value as? [String:Any] else { return }
+     dictionaries.forEach({ (key, value) in
+     guard let dictionary = value as? [String:Any] else { return }
+     let post = Post(user: user, dictionary: dictionary)
+     posts.append(post)
+     })
+     completion(posts,nil)
+     }) { (error) in
+     print(error)
+     completion(nil,error)
+     }
+     }
+     */
     func fetchOrderedPostsUserProfile(user:User, completion:@escaping([Post],Error?)->()){
         //Bug no observer corrigir depois
         guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
@@ -132,6 +145,6 @@ class PostService: NSObject {
             completion(posts,error)
         }
     }
-
+    
     
 }
